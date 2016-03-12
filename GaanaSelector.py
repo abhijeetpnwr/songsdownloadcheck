@@ -1,3 +1,23 @@
+import sys
+
+#Check for beauifull soup installation
+try:
+    import BeautifulSoup
+except ImportError:
+    sys.exit("""You need Beautiful Soup ! install it from http://pypi.python.org/pypi/foo or run pip install foo.""")
+
+#Check for requests installation
+try:
+    import requests
+except ImportError:
+    sys.exit("""You need request package installd ! """)
+
+#check for urllib2 installation
+try:
+    import urllib2
+except ImportError:
+    sys.exit("""You need urllib2 package installd ! """)
+
 import urllib2
 import requests
 from BeautifulSoup import BeautifulSoup
@@ -19,26 +39,30 @@ def  selector(url):
     counter = 0
 
     for div in header:
-
             movie = ""
             rating = 0
 
             links = div.findAll('img')
 
             for a in links:
-                if(counter == 0):
+                if counter == 0 :
                     movie = a['title']
-
-                if(counter == 2):
+                if counter == 2:
                     rating = float(a['alt'])
-                    print "Rating is",rating
-
-                if(rating >= 3.5):
-                    result.append(movie
-
+                if rating >= 3.5 :
+                    result.append(movie)
                 counter = counter+1
+
             counter = 0
     return result
 
-print selector("http://www.bollywoodhungama.com/more/musicreviews")
+#This function download songs of the movie
+def download(downloadList):
+    for movie in downloadList:
+        print "Need to download songs of :"+movie
+
+downloadList = selector("http://www.bollywoodhungama.com/more/musicreviews")
+
+download(downloadList)
+
 
